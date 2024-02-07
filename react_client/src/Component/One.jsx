@@ -4,20 +4,22 @@ import Webcam from 'react-webcam';
 import { useCameraContext } from '../CameraContext';
 
 const One = () => {
-    const navigate = useNavigate();
-    const webcamRef = useRef(null);
-    const { startPrediction } = useCameraContext();
+    const navigate = useNavigate(); // for navigate to next page
+    const webcamRef = useRef(null); // webcam
+    const { startPrediction } = useCameraContext(); // get startPrediction function from cameracontext
 
+    // define the video window
     const videoConstraints = {
         width: 480,
         height: 360,
         facingMode: 'environment'
     };
 
+    // function when the next button is clicked
     const handleClick = () => {
-        // ganti state prediction ke true
+        // run the startPrediction function -> this function will change the state of isPrediction variable to True
         startPrediction();
-        // pindah ke page 2
+        // move to page two
         navigate('/page-two');
     }
 

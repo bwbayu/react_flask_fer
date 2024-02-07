@@ -5,20 +5,24 @@ import React, { useRef, useEffect } from "react";
 import axios from 'axios';
 
 const Two = () => {
-    const navigate = useNavigate();
-    const webcamRef = useRef(null);
+    const navigate = useNavigate(); // for navigate to next page
+    const webcamRef = useRef(null); // webcam
+    // get isPredicting variable to be used for activate the prediction process
+    // get the stopPrediction function to be used for change the state when we go to the next page
     const { isPredicting, stopPrediction } = useCameraContext();
 
+    // define the video window
     const videoConstraints = {
         width: 480,
         height: 360,
         facingMode: 'environment'
     };
 
+    // function for send image/frame to function in backend for predicting image emotion
     const sendImageToBackend = async (imageSrc) => {
         try {
             const response = await axios.post(
-                'process_frame',
+                'process_frame', // the endpoint for function
                 {
                     image: imageSrc,
                 },
@@ -36,28 +40,29 @@ const Two = () => {
         }
     };
 
-
+    // function when the next button is clicked
     const handleClick = () => {
-        // ganti state prediction ke false
+        // run the stopPrediction function -> this function will change the state of isPrediction variable to False
         stopPrediction();
-        // pindah ke page 2
+        // move to page three
         navigate('/page-three');
     }
 
-
+    // this function will automate run when this page is rendered
     useEffect(() => {
         let intervalId;
+        // function for get the current frame and call the function for send that frame to backend
         const captureAndSendImage = () => {
-            const imageSrc = webcamRef.current.getScreenshot();
+            const imageSrc = webcamRef.current.getScreenshot(); // get the current frame based on webcam
             console.log(imageSrc);
-            if (imageSrc) {
+            if (imageSrc) { // error handling when image is empty
                 sendImageToBackend(imageSrc);
             }
         };
 
-
+        // when the state of isPredicting is True, then this function will always run
         if (isPredicting) {
-            intervalId = setInterval(captureAndSendImage, 10000); // 5 detik
+            intervalId = setInterval(captureAndSendImage, 10000); // capture frame for every 10 seconds
         }
 
         return () => {

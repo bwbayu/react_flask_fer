@@ -2,7 +2,7 @@ import { useCameraContext } from '../CameraContext';
 
 
 const Three = () => {
-    const { resultData } = useCameraContext();
+    const { resultData } = useCameraContext(); // get the result data variable to be used for showing in the page
 
     return (
         <div>

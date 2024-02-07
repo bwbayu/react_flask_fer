@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PageOne from './Pages/PageOne';
 import PageTwo from './Pages/PageTwo';
 import PageThree from './Pages/PageThree';
-import { CameraProvider } from './CameraContext';  // Import CameraProvider directly
+import { CameraProvider } from './CameraContext';
 
 const App = () => {
   return (
