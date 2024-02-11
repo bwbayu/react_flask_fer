@@ -54,7 +54,7 @@ const Two = () => {
         // function for get the current frame and call the function for send that frame to backend
         const captureAndSendImage = () => {
             const imageSrc = webcamRef.current.getScreenshot(); // get the current frame based on webcam
-            console.log(imageSrc);
+            // console.log(imageSrc);
             if (imageSrc) { // error handling when image is empty
                 sendImageToBackend(imageSrc);
             }
@@ -62,7 +62,7 @@ const Two = () => {
 
         // when the state of isPredicting is True, then this function will always run
         if (isPredicting) {
-            intervalId = setInterval(captureAndSendImage, 10000); // capture frame for every 10 seconds
+            intervalId = setInterval(captureAndSendImage, 3000); // capture frame for every 10 seconds
         }
 
         return () => {
