@@ -13,8 +13,8 @@ const Two = () => {
 
     // define the video window
     const videoConstraints = {
-        width: 480,
-        height: 360,
+        width: 1,
+        height: 1,
         facingMode: 'environment'
     };
 
@@ -53,7 +53,7 @@ const Two = () => {
         let intervalId;
         // function for get the current frame and call the function for send that frame to backend
         const captureAndSendImage = () => {
-            const imageSrc = webcamRef.current.getScreenshot(); // get the current frame based on webcam
+            const imageSrc = webcamRef.current.getScreenshot({ width: 1920, height: 1080 }); // get the current frame based on webcam
             // console.log(imageSrc);
             if (imageSrc) { // error handling when image is empty
                 sendImageToBackend(imageSrc);
@@ -62,7 +62,7 @@ const Two = () => {
 
         // when the state of isPredicting is True, then this function will always run
         if (isPredicting) {
-            intervalId = setInterval(captureAndSendImage, 3000); // capture frame for every 10 seconds
+            intervalId = setInterval(captureAndSendImage, 5000); // capture frame for every 10 seconds
         }
 
         return () => {

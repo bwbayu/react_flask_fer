@@ -19,20 +19,31 @@ def process_frame():
     # convert image to numpy
     img_np = cv2.imdecode(np.frombuffer(base64.b64decode(image_src.split(',')[1]), np.uint8), cv2.IMREAD_COLOR)
 
+    # Print the size of the input image
+
     # Convert image to grayscale
+    print("Input image size 1:", img_np.shape)
     gray_frame = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)
     emotion = None
+    emotion1 = None
 
-    faces = faceDetect.detectMultiScale(gray_frame, 1.3, 3)
+    resized_img_np = cv2.resize(img_np, (480, 360))
+
+    # Print the size of the input image
+    print("Input image size 2:", resized_img_np.shape)
+
+    faces = faceDetect.detectMultiScale(gray_frame, 1.1, 3)
     if len(faces) > 0:
         # Analyze emotions using DeepFace
-        result = DeepFace.analyze(img_np, actions=['emotion'], enforce_detection=False)
+        result = DeepFace.analyze(resized_img_np, actions=['emotion'], enforce_detection=False)
         emotion = result[0]['dominant_emotion'] # get the dominant emotion from an image/frame
         print("EMOTION = " + emotion)
+        result1 = DeepFace.analyze(img_np, actions=['emotion'], enforce_detection=False)
+        emotion1 = result1[0]['dominant_emotion']
         emotion_counts[emotion] += 1 # iterate for emotion label
     
 
-    return jsonify({'status': 'success', 'emotion':emotion})
+    return jsonify({'status': 'success', 'emotion':emotion, 'emotion_big': emotion1})
 
 @app.route('/result') # endpoint for show the final result of user emotion
 def result():
